@@ -1,8 +1,11 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { context } from '../App'
 
 const Participantlist = () => {
+  let {data}=useContext(context)
+  console.log(data)
   const params=useParams()
 
 

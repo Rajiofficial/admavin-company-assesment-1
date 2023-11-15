@@ -3,15 +3,19 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import "./css/home.css"
 
-const Home=()=>{
+const Home=(props)=>{
+console.log(props)
+
+
+
+
+   const [count,setcount]=useState(0)
 
 
 
 
   const [data ,setdata]=useState([])
   const [search ,setsearch]=useState([])
-
-
 
 
 
@@ -26,7 +30,7 @@ const navi=useNavigate()
         await axios.get("https://6258573d0c918296a495a609.mockapi.io/datas")
         .then((res)=>{
             console.log(res.data)
-            setdata(res?.data)
+            setdata(res?.data) 
             setsearch(res?.data)
         })
         .catch((err)=>{
@@ -49,7 +53,7 @@ const handleupdate=(i)=>{
 navi(`/update/${i}`)
 }
 
-const edit=()=>{
+const filters=()=>{
     navi('/Add')
     }
     
@@ -62,18 +66,38 @@ const participatelist=(i)=>{
 const filter=(event)=>{
 setsearch(data.filter(f=>f.tournamentName.toLowerCase().includes(event.target.value)))
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 return(
     
         
 
 <div>
 
-  
             <div className="head">
               <input type="text" className="searchdata" placeholder="search" onChange={filter} />
-            <button className="btnadd" onClick={()=>edit()}>add</button>
+            <button className="btnadd" onClick={()=>filters()}>add</button>
+          
         </div>
 
+ 
 <table class="table table-dark">
   <thead>
     <tr>
@@ -96,8 +120,6 @@ return(
         <td>{e.endDate}</td>
       
         
-  
-      
        
 <td><button type="button" class="btn btn-primary" onClick={()=>{handleupdate(e.id)}} >edit</button></td>
 <td><button type="button" class="btn btn-danger" onClick={()=>{handledelete(e.id)}}>delete</button></td>
@@ -108,7 +130,9 @@ return(
 
   </tbody>
 </table>
-
+<h1>{count}</h1>
+  <button onClick={()=>setcount(count+1)}>+</button>
+            <button onClick={()=>setcount(count-1)}>-</button>
  </div>
    
       
@@ -120,4 +144,6 @@ return(
 
         }
 export default Home;
+
+
 

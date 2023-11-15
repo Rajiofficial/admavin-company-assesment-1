@@ -1,41 +1,54 @@
-import axios from 'axios'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+  import axios from 'axios'
+import React, { useContext, useState } from 'react'
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 // import {toast,ToastContainer  } from 'react-toastify';
 import './css/add.css'
+import { context } from '../App';
 
 const Add = () => {
+  let {data,setdata}=useContext(context)
 const navigate=useNavigate()
   const [member, setmember]=useState("")
 const [tournamentName, settournamentName]=useState("")
 const [startDate, setstartDate]=useState("")
 const [endDate  , setendDate  ]=useState("")
 
-    const handlechange=async(e)=>{
-        e.preventDefault()
-        const ans={  member,tournamentName,
-          startDate,
-          endDate,
-         }
-         await axios.post( "https://6258573d0c918296a495a609.mockapi.io/datas",ans)
-        .then((res)=>{
-            console.log(res)
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
-        
-      navigate("/")
-    }
+    
+  const  handlechange=async(e)=>{
+    e.preventDefault()
+    const ans={member,startDate,endDate,tournamentName}
+    console.log(ans)
+setdata([...data,ans])
+    await axios.post("https://6258573d0c918296a495a609.mockapi.io/datas",ans)
+    .then((Response)=>{
+       console.log(Response)
+   })
+   .catch((error)=>{
+       console.log(error)
+   })
+navigate('/')
+
+ }
+  
 
 
 
-   
+console.log("context",data)   
 
 
 
 
   return (
+
+
+    <>
+        <div className="products">
+      <div className="productsNav">
+        <Link to="/add/view"> view </Link> 
+      </div> 
+      <Outlet />
+    </div>
+  
     <div className="container2">
 
    <div className='wrapper1'>
@@ -59,7 +72,8 @@ const [endDate  , setendDate  ]=useState("")
 </form>
 </div>
 </div>
+</>
   )
 }
 
-export default Add
+export default Add  
